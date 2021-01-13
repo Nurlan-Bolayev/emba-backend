@@ -29,16 +29,18 @@ class ProductController extends Controller
             'name' => 'required|string|min:3|max:255',
             'description' => 'required|string|min:3|max:2000',
             'category_id' => 'required|int|exists:categories,id',
-        ],[
-
         ]);
-         $product->forceFill($attrs)->save();
-         return $product;
+
+        $body = [
+            'slug' => Str::slug($attrs['name']),
+        ];
+
+        $product->forceFill(array_merge($attrs, $body))->save();
+        return $product;
     }
 
     public function delete(Product $product)
     {
-
         $product->delete();
 
         return 'done';
