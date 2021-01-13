@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Models\Admin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Facades\Hash;
 use Tests\TestCase;
 
 class AdminControllerTest extends TestCase
@@ -14,16 +15,36 @@ class AdminControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_admin()
+    public function test_admin_login()
+    {
+        $password = 'asdfg';
+        $admin = Admin::factory()->create([
+            'password' => Hash::make($password),
+        ]);
+        $this
+            ->actingAs($admin)
+            ->postJson('api/admin/login', [
+                'email' => $admin->email,
+                'password' => $password,
+            ])
+            ->assertOk()
+            ->assertJson([
+                'id' => $admin->id,
+                'name' => $admin->name,
+                'email' => $admin->email,
+            ]);;
+    }
+
+    public function test_admin_login_fails()
     {
         $password = 'nurlanqwe';
         $admin = Admin::factory()->create(['password' => $password]);
         $this
             ->actingAs($admin)
             ->postJson('api/admin/login', [
-            'email' => 'emaildoesntexist@gmail.com',
-            'password' => $password
-        ])
+                'email' => 'emaildoesntexist@gmail.com',
+                'password' => $password
+            ])
             ->dump()
             ->assertStatus(422)
             ->assertExactJson([
