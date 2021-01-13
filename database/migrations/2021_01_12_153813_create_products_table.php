@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Admin::class, 'creator_id')->constrained('admins');
+            $table->timestamps();
         });
     }
 
