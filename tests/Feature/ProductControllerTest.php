@@ -24,13 +24,18 @@ class ProductControllerTest extends TestCase
             'category_id' => $category->id,
         ];
 
+        $expected = array_merge($body, [
+            'slug' => 'new-product',
+            'creator_id' => $admin->id,
+        ]);
+
         $this
             ->actingAsAdmin($admin)
             ->postJson('api/admin/products/create', $body)
             ->assertCreated()
-            ->assertJson($body);
+            ->assertJson($expected);
 
-        $this->assertDatabaseHas('products', $body);
+        $this->assertDatabaseHas('products', $expected);
     }
 
     public function test_update_product()
@@ -40,18 +45,23 @@ class ProductControllerTest extends TestCase
         $admin = Admin::factory()->create();
         $body = [
             'id' => $product->id,
-            'name' => 'asd',
+            'name' => 'paltaryuyan 7kg',
             'description' => 'new Product',
             'category_id' => $category->id,
         ];
+
+        $expected = array_merge($body, [
+            'slug' => 'paltaryuyan-7kg',
+            'creator_id' => $product->creator_id,
+        ]);
 
         $this
             ->actingAsAdmin($admin)
             ->putJson("api/admin/products/$product->id", $body)
             ->assertOk()
-            ->assertJson($body);
+            ->assertJson($expected);
 
-        $this->assertDatabaseHas('products', $body);
+        $this->assertDatabaseHas('products', $expected);
     }
 
     public function test_delete_product()
