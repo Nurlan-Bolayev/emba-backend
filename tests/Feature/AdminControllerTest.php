@@ -45,7 +45,6 @@ class AdminControllerTest extends TestCase
                 'email' => 'emaildoesntexist@gmail.com',
                 'password' => $password
             ])
-            ->dump()
             ->assertStatus(422)
             ->assertExactJson([
                 'message' => 'The given data was invalid.',
