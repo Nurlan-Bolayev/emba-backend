@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -31,5 +32,9 @@ Route::prefix('admin')->group(function () {
         Route::post('/products/create', ProductController::class . '@create');
         Route::put('/products/{product}', ProductController::class . '@update');
         Route::delete('/products/{product}', ProductController::class . '@delete');
+
+        Route::post('/categories/create', CategoryController::class .'@create');
+        Route::put('/categories/{category}', CategoryController::class .'@update');
+        Route::delete('/categories/{category}', CategoryController::class .'@delete');
     });
 });
