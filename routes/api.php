@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -36,5 +37,8 @@ Route::prefix('admin')->group(function () {
         Route::post('/categories/create', CategoryController::class .'@create');
         Route::put('/categories/{category}', CategoryController::class .'@update');
         Route::delete('/categories/{category}', CategoryController::class .'@delete');
+
+        Route::post('/products/{product}/add-image', ImageController::class . '@store');
+        Route::delete('/images/{image}', ImageController::class . '@delete');
     });
 });
