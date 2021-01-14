@@ -4,10 +4,10 @@ namespace Tests\Feature;
 
 use App\Models\Admin;
 use App\Models\Category;
+use App\Models\Image;
 use App\Models\Product;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
@@ -68,11 +68,21 @@ class ProductControllerTest extends TestCase
     {
         $admin = Admin::factory()->create();
         $product = Product::factory()->create();
+        $images = Image::factory()->count(3)->create([
+            'product_id' => $product,
+            'path' => fn() => UploadedFile::fake()
+                ->image('stol.png')
+                ->store('uploads')
+        ]);
+
         $this
             ->actingAsAdmin($admin)
-            ->deleteJson('api/admin/products/' . $product->id)
+            ->deleteJson("api/admin/products/$product->id")
             ->assertOk();
 
-        $this->assertDeleted($product);
+        foreach ($images as $image) {
+            $this->assertDeleted($image);
+            Storage::assertMissing($image->path);
+        }
     }
 }
