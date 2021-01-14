@@ -41,6 +41,11 @@ class ProductController extends Controller
 
     public function delete(Product $product)
     {
+        foreach ($product->images as $image) {
+            Storage::delete($image->path);
+            $image->delete();
+        }
+
         $product->delete();
 
         return 'done';
