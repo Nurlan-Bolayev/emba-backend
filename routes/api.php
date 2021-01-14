@@ -19,26 +19,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/register', UserController::class . '@register')->middleware('guest');
-Route::post('/login', UserController::class . '@login')->middleware('guest');
+Route::post('register', UserController::class . '@register')->middleware('guest');
+Route::post('login', UserController::class . '@login')->middleware('guest');
 
 Route::prefix('admin')->group(function () {
-    Route::post('/login', AdminController::class . '@loginAdmin')->middleware('guest:admin');
+    Route::post('login', AdminController::class . '@loginAdmin')->middleware('guest:admin');
 
     Route::middleware('auth:admin')->group(function () {
-        Route::post('/products/create', ProductController::class . '@create');
-        Route::put('/products/{product}', ProductController::class . '@update');
-        Route::delete('/products/{product}', ProductController::class . '@delete');
+        Route::post('products/create', ProductController::class . '@create');
+        Route::put('products/{product}', ProductController::class . '@update');
+        Route::delete('products/{product}', ProductController::class . '@delete');
 
-        Route::post('/categories/create', CategoryController::class .'@create');
-        Route::put('/categories/{category}', CategoryController::class .'@update');
-        Route::delete('/categories/{category}', CategoryController::class .'@delete');
+        Route::post('categories/create', CategoryController::class . '@create');
+        Route::put('categories/{category}', CategoryController::class . '@update');
+        Route::delete('categories/{category}', CategoryController::class . '@delete');
 
-        Route::post('/products/{product}/add-image', ImageController::class . '@store');
-        Route::delete('/images/{image}', ImageController::class . '@delete');
+        Route::post('products/{product}/add-image', ImageController::class . '@store');
+        Route::delete('images/{image}', ImageController::class . '@delete');
     });
 });
