@@ -23,14 +23,14 @@ Route::middleware('auth:api')->get('user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('register', UserController::class . '@register')->middleware('guest');
-Route::post('login', UserController::class . '@login')->middleware('guest');
+Route::post('register', UserController::class . '@register');
+Route::post('login', UserController::class . '@login');
 
 Route::prefix('admin')->group(function () {
-    Route::post('login', AdminController::class . '@loginAdmin')->middleware('guest:admin');
+    Route::post('login', AdminController::class . '@loginAdmin');
 
     Route::middleware('auth:admin')->group(function () {
-        Route::get('user', fn (Request $request) => $request->user());
+        Route::get('user', fn(Request $request) => $request->user());
 
         Route::post('products/create', ProductController::class . '@create');
         Route::put('products/{product}', ProductController::class . '@update');
