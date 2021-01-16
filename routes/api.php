@@ -30,6 +30,8 @@ Route::prefix('admin')->group(function () {
     Route::post('login', AdminController::class . '@loginAdmin')->middleware('guest:admin');
 
     Route::middleware('auth:admin')->group(function () {
+        Route::get('user', fn (Request $request) => $request->user());
+
         Route::post('products/create', ProductController::class . '@create');
         Route::put('products/{product}', ProductController::class . '@update');
         Route::delete('products/{product}', ProductController::class . '@delete');
