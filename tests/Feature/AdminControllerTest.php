@@ -49,7 +49,7 @@ class AdminControllerTest extends TestCase
             ->assertExactJson([
                 'message' => 'The given data was invalid.',
                 'errors' => [
-                    'email' => ["There is no such user with these credentials."]
+                    'email' => ["Invalid credentials."]
                 ]
             ]);
     }
