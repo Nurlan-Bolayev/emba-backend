@@ -8,6 +8,16 @@ use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
+    public function all()
+    {
+        return Category::with('creator')->get();
+    }
+
+    public function get(Category $category)
+    {
+        return $category->load('products');
+    }
+
     public function create(Request $request)
     {
         $data = $request->validate([

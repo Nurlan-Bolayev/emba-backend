@@ -9,6 +9,16 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    public function all()
+    {
+        return Product::with('category', 'creator')->get();
+    }
+
+    public function show(Product $product)
+    {
+        return $product->load('images');
+    }
+
     public function create(Request $request)
     {
         $attrs = $request->validate([
