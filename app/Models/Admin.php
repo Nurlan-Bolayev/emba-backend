@@ -10,6 +10,12 @@ class Admin extends Authenticatable
 {
     use HasFactory;
 
+    protected $visible = [
+        'id',
+        'name',
+        'email',
+    ];
+
     public function products()
     {
         return $this->hasMany(Product::class);

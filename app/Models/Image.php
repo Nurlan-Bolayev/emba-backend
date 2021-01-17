@@ -9,6 +9,11 @@ class Image extends Model
 {
     use HasFactory;
 
+    protected $visible = [
+        'id',
+        'path',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(Admin::class);
