@@ -28,6 +28,7 @@ class ProductFactory extends Factory
         return [
             'name' => $this->faker->name,
             'slug' => fn($attrs) => Str::slug($attrs['name']),
+            'price' => $this->faker->randomFloat(2, 0, 150),
             'description' => $this->faker->text,
             'category_id' => Category::factory(),
             'creator_id' => Admin::factory(),

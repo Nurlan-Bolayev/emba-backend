@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('slug');
+            $table->float('price');
             $table->text('description');
             $table->foreignIdFor(Category::class)->constrained();
             $table->foreignIdFor(Admin::class, 'creator_id')->constrained('admins');
