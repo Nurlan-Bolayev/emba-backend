@@ -21,6 +21,7 @@ class ProductControllerTest extends TestCase
         $body = [
             'name' => 'New product',
             'description' => 'Here is description',
+            'price' => 100,
             'category_id' => $category->id,
         ];
 
@@ -38,6 +39,16 @@ class ProductControllerTest extends TestCase
         $this->assertDatabaseHas('products', $expected);
     }
 
+    public function test_use_can_get_products()
+    {
+        $admin = Admin::factory()->create();
+        $products = Product::factory()->count(10)->create();
+        $this
+            ->actingAsAdmin($admin)
+            ->getJson('api/admin/products')
+            ->assertOk()
+            ->assertJsonCount($products->count());
+    }
     public function test_update_product()
     {
         $product = Product::factory()->create();
@@ -46,6 +57,7 @@ class ProductControllerTest extends TestCase
         $body = [
             'id' => $product->id,
             'name' => 'paltaryuyan 7kg',
+            'price' => 100,
             'description' => 'new Product',
             'category_id' => $category->id,
         ];

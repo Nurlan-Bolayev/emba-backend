@@ -28,6 +28,17 @@ class CategoryControllerTest extends TestCase
         $this->assertDatabaseHas('categories', $expected);
     }
 
+    public function test_user_can_get_categories()
+    {
+        $admin = Admin::factory()->create();
+        $categories = Category::factory()->count(10)->create();
+        $this
+            ->actingAsAdmin($admin)
+            ->getJson('api/admin/categories')
+            ->assertOk()
+            ->assertJsonCount($categories->count());
+    }
+
     public function test_update_category()
     {
         $body = [

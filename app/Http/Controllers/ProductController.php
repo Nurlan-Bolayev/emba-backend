@@ -23,7 +23,7 @@ class ProductController extends Controller
     {
         $attrs = $request->validate([
             'name' => 'required|string|min:3|max:255',
-            'price' => 'required|float|min:0',
+            'price' => 'required|numeric|min:1',
             'description' => 'required|string|min:3|max:2000',
             'category_id' => 'required|int|exists:categories,id',
         ]);
@@ -38,7 +38,7 @@ class ProductController extends Controller
     {
         $attrs = $request->validate([
             'name' => 'required|string|min:3|max:255',
-            'price' => 'required|float|min:0',
+            'price' => 'required|numeric|min:1',
             'description' => 'required|string|min:3|max:2000',
             'category_id' => 'required|int|exists:categories,id',
         ]);

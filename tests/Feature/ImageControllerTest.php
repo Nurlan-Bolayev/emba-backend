@@ -19,17 +19,7 @@ class ImageControllerTest extends TestCase
         $product = Product::factory()->create();
         $admin = Admin::factory()->create();
         $expected = [
-            'creator_id' => $admin->id,
-            'product_id' => $product->id,
             'path' => 'uploads/' . $file->hashName(),
-            'meta' => json_encode([
-                'original_name' => 'televizor.jpeg',
-                'resolution' => [
-                    'height' => getimagesize($file)[1],
-                    'width' => getimagesize($file)[0],
-                ],
-                'size' => $file->getSize(),
-            ]),
         ];
 
         $this
@@ -40,7 +30,18 @@ class ImageControllerTest extends TestCase
             ->assertJson($expected);
 
         Storage::assertExists('uploads/' . $file->hashName());
-        $this->assertDatabaseHas('images', $expected);
+        $this->assertDatabaseHas('images', array_merge($expected, [
+            'creator_id' => $admin->id,
+            'product_id' => $product->id,
+            'meta' => json_encode([
+                'original_name' => 'televizor.jpeg',
+                'resolution' => [
+                    'height' => getimagesize($file)[1],
+                    'width' => getimagesize($file)[0],
+                ],
+                'size' => $file->getSize(),
+            ]),
+        ]));
     }
 
     public function test_delete_image()
